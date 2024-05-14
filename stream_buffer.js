@@ -1,5 +1,6 @@
 const http = require('http')
 const fs = require('fs')
+const { error } = require('console')
 
 //creating raw server
 
@@ -13,11 +14,18 @@ server.on('request',(req,res) => {
         //streaming file reading
         const readableStream = fs.createReadStream(__dirname + '/texts/read.txt') //process.cwd() do the same as __dirname
         readableStream.on('data',(buffer) => {
+            res.statusCode = 200
             res.write(buffer)
         })
 
         readableStream.on('end',()=> {
-            res.end('hello from the server')  
+            res.statusCode = 200
+            res.end('The streaming is over')  
+        })
+        readableStream.on('error',(error)=> {
+            console.log(error);
+            res.statusCode = 500
+            res.end('An error occured')  
         })
     }
 })
