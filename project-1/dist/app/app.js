@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -36,11 +45,33 @@ courseRouter.post('/api/v1/courses/new-course', (req, res) => {
         data: course
     });
 });
-app.get('/', logger, (req, res) => {
-    res.send('Hello World!');
-});
+app.get('/', logger, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.send(something);
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 app.post('/', logger, (req, res) => {
     console.log(req.body);
     res.send("got data");
+});
+app.all('*', (req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Page not found",
+    });
+});
+//global error handler
+app.use((error, req, res, next) => {
+    console.log(error);
+    if (error) {
+        res.status(404).json({
+            success: false,
+            message: "Error Occured",
+            data: error
+        });
+    }
 });
 exports.default = app;
