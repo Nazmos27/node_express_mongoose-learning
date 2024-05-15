@@ -14,6 +14,33 @@ const logger = (req : Request, res : Response, next : NextFunction) => {
   next();
 }
 
+//creating router
+
+const userRouter = express.Router();
+const courseRouter = express.Router();
+
+app.use('/',userRouter)
+app.use('/',courseRouter)
+
+userRouter.post('/api/v1/users/create-user',(req: Request, res : Response) => {
+  const user = req.body;
+  console.log(user);
+  res.json({
+    success : true,
+    message : "User created successfully",
+    data : user
+  })
+})
+courseRouter.post('/api/v1/courses/new-course',(req: Request, res : Response) => {
+  const course = req.body;
+  console.log(course);
+  res.json({
+    success : true,
+    message : "course created successfully",
+    data : course
+  })
+})
+
 app.get('/', logger, (req: Request, res: Response) => {
   res.send('Hello World!')
 })

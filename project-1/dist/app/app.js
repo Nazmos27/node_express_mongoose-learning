@@ -13,6 +13,29 @@ const logger = (req, res, next) => {
     console.log(req.url, req.method, req.hostname);
     next();
 };
+//creating router
+const userRouter = express_1.default.Router();
+const courseRouter = express_1.default.Router();
+app.use('/', userRouter);
+app.use('/', courseRouter);
+userRouter.post('/api/v1/users/create-user', (req, res) => {
+    const user = req.body;
+    console.log(user);
+    res.json({
+        success: true,
+        message: "User created successfully",
+        data: user
+    });
+});
+courseRouter.post('/api/v1/courses/new-course', (req, res) => {
+    const course = req.body;
+    console.log(course);
+    res.json({
+        success: true,
+        message: "course created successfully",
+        data: course
+    });
+});
 app.get('/', logger, (req, res) => {
     res.send('Hello World!');
 });
