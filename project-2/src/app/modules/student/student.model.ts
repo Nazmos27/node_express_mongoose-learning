@@ -1,37 +1,29 @@
-import { Gurdian, LocalGuardian, Student, UserName } from './student/student.interface';
-import { Schema, model, connect } from 'mongoose';
-
+import { Gurdian, LocalGuardian, Student, UserName } from './student.interface';
+import { Schema, model } from 'mongoose';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
 
 const userNameSchema = new Schema<UserName>({
-    firstName: { type: String, required: true },
-    middleName: { type: String },
-    lastName: { type: String, required: true },
-  })
+  firstName: { type: String, required: true },
+  middleName: { type: String },
+  lastName: { type: String, required: true },
+});
 
 const guardianSchema = new Schema<Gurdian>({
-    fatherName : {type : String, required : true},
-    fatherOccupation : {type : String, required : true},
-    fatherContactNo : {type : String, required : true},
-    motherName : {type : String, required : true},
-    motherOccupation : {type : String, required : true},
-    motherContactNo : {type : String, required : true},
-  })
-
+  fatherName: { type: String, required: true },
+  fatherOccupation: { type: String, required: true },
+  fatherContactNo: { type: String, required: true },
+  motherName: { type: String, required: true },
+  motherOccupation: { type: String, required: true },
+  motherContactNo: { type: String, required: true },
+});
 
 const localGuardianSchema = new Schema<LocalGuardian>({
-    name : {type : String, required : true},
-    occupation : {type : String, required : true},
-    contactNo : {type : String, required : true},
-    address : {type : String, required : true},
-  })
-
-
-
-
-
-
+  name: { type: String, required: true },
+  occupation: { type: String, required: true },
+  contactNo: { type: String, required: true },
+  address: { type: String, required: true },
+});
 
 /*
                             ---------------------------------------------
@@ -63,36 +55,26 @@ Benefits of using schema:
 const studentSchema = new Schema<Student>({
   id: { type: String },
   name: userNameSchema,
-  gender : ["male","female"],
-  dateOfBirth : {type : String},
-  email : {type : String, required : true},
-  contactNo : {type : String, required : true},
-  emergencyContactNo : {type : String, required : true},
-  bloodGroup : [
-    "A+",
-    "A-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-",
-    "B+",
-    "B-",
-  ],
-  presentAdress : {type : String, required : true},
-  permanentAdress : {type : String, required : true},
-  guardian : guardianSchema ,
-  localGuardian : localGuardianSchema,
-  profileImg : {type: String},
-  isActive : ["active","blocked"]
+  gender: ['male', 'female'],
+  dateOfBirth: { type: String },
+  email: { type: String, required: true },
+  contactNo: { type: String, required: true },
+  emergencyContactNo: { type: String, required: true },
+  bloodGroup: ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
+  presentAdress: { type: String, required: true },
+  permanentAdress: { type: String, required: true },
+  guardian: guardianSchema,
+  localGuardian: localGuardianSchema,
+  profileImg: { type: String },
+  isActive: ['active', 'blocked'],
 });
 
-
 /*
-                        ---------------------- 
-                            creating model 
-                        ----------------------
+                                    ---------------------- 
+                                         creating model 
+                                    ----------------------
 what is model in mongoose?
 ---> In Mongoose, a model is a constructor that you can use to create instances of your documents. It's built from a schema, which defines the structure of the documents within a collection. In TypeScript, you can define a model using the Model interface from Mongoose.
 */
 
-const Stuent = model<Student>('Student',studentSchema);
+export const StuentModel = model<Student>('Student', studentSchema);
