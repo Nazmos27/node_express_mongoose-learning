@@ -1,4 +1,9 @@
-import { Gurdian, LocalGuardian, Student, UserName } from './student.interface';
+import {
+  Gurdian,
+  LocalGuardian,
+  Student,
+  UserName,
+} from './student/student.interface';
 import { Schema, model } from 'mongoose';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
@@ -77,4 +82,4 @@ what is model in mongoose?
 ---> In Mongoose, a model is a constructor that you can use to create instances of your documents. It's built from a schema, which defines the structure of the documents within a collection. In TypeScript, you can define a model using the Model interface from Mongoose.
 */
 
-export const StuentModel = model<Student>('Student', studentSchema);
+export const StudentModel = model<Student>('Student', studentSchema);
