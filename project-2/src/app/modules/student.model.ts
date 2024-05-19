@@ -9,9 +9,9 @@ import { Schema, model } from 'mongoose';
 //making sub-schema to minimize the messyness and to maintain clean codebase
 
 const userNameSchema = new Schema<UserName>({
-  firstName: { type: String, required: true },
+  firstName: { type: String, required: [true, "First name is required"] },
   middleName: { type: String },
-  lastName: { type: String, required: true },
+  lastName: { type: String, required: [true, "Last name is required"] },
 });
 
 const guardianSchema = new Schema<Gurdian>({
@@ -58,20 +58,43 @@ Benefits of using schema:
 
 */
 const studentSchema = new Schema<Student>({
-  id: { type: String },
-  name: userNameSchema,
-  gender: ['male', 'female'],
+  id: { type: String, required : true, unique : true },
+  name: {
+    type: userNameSchema,
+    required : true
+  },
+  gender: {
+    type: String,
+    enum : {
+      values : ['male','female','other'],
+      message : "{VALUES} is not supported! The gender field can be only 'male','female' or 'other'"
+    },
+    required : true
+  },
   dateOfBirth: { type: String },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique : true },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
-  bloodGroup: ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
+  bloodGroup: {
+    type: String,
+    enum :  ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
+  },
   presentAdress: { type: String, required: true },
   permanentAdress: { type: String, required: true },
-  guardian: guardianSchema,
-  localGuardian: localGuardianSchema,
+  guardian:{
+    type :  guardianSchema,
+    required : true
+  },
+  localGuardian: {
+    type : localGuardianSchema,
+    required : true
+  },
   profileImg: { type: String },
-  isActive: ['active', 'blocked'],
+  isActive: {
+    type : String,
+    enum : ['active', 'blocked'],
+    default : "active"
+  },
 });
 
 /*
