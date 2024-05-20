@@ -5,6 +5,7 @@ import {
   UserName,
 } from './student/student.interface';
 import { Schema, model } from 'mongoose';
+import validator from 'validator';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
 
@@ -55,6 +56,10 @@ const userNameSchema = new Schema<UserName>({
     minlength: [1, 'Last name must be at least 1 characters long'],
     maxlength: [20, 'Last name must be at most 20 characters long'],
     trim: true,
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: '{VALUE} should be character only',
+    },
   },
 });
 
@@ -197,6 +202,10 @@ const studentSchema = new Schema<Student>({
     type: String,
     required: [true, 'Email is required'],
     unique: true,
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: 'Email format is not okay',
+    },
   },
   contactNo: {
     type: String,
