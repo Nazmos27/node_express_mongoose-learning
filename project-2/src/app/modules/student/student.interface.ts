@@ -1,6 +1,6 @@
 // import { Schema, model, connect } from 'mongoose';
 
-export type Gurdian = {
+export type Guardian = {
   fatherName: string;
   fatherOccupation: string;
   fatherContactNo: string;
@@ -33,7 +33,7 @@ export type Student = {
   bloodGroup?: 'A+' | 'A-' | 'O+' | 'O-' | 'AB+' | 'AB-' | 'B+' | 'B-';
   presentAdress: string;
   permanentAdress: string;
-  guardian: Gurdian;
+  guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
   isActive: 'active' | 'blocked';
