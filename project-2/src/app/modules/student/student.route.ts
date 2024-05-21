@@ -9,5 +9,6 @@ router.post('/create-student', StudentControllers.createStudent);
 router.get('/', StudentControllers.getAllStudents);
 
 router.get('/:id', StudentControllers.getSingleStudentData);
+router.delete('/:id', StudentControllers.deleteStudentFromDB);
 
 export const StudentRoutes = router;

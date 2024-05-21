@@ -5,10 +5,10 @@ import {
   UserName,
 } from './student/student.interface';
 import { Schema, model } from 'mongoose';
-import validator from 'validator';
+import bcrypt from 'bcrypt';
+import config from '../config';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
-
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -17,14 +17,6 @@ const userNameSchema = new Schema<UserName>({
     minlength: [1, 'First name must be at least 1 characters long'],
     maxlength: [20, 'First name must be at most 20 characters long'],
     trim: true,
-    validate: {
-      validator: function (value: string) {
-        const firstLetterStr = value.charAt(0).toUpperCase() + value.slice(1);
-        return firstLetterStr === value;
-      },
-      message:
-        '{VALUE} is not in correct format, please make first letter capital',
-    },
   },
   middleName: {
     type: String,
@@ -35,10 +27,6 @@ const userNameSchema = new Schema<UserName>({
     minlength: [1, 'Last name must be at least 1 characters long'],
     maxlength: [20, 'Last name must be at most 20 characters long'],
     trim: true,
-    validate: {
-      validator: (value: string) => validator.isAlpha(value),
-      message: '{VALUE} should be character only',
-    },
   },
 });
 
@@ -122,6 +110,7 @@ const studentSchema = new Schema<Student>({
     required: [true, 'Student ID is required'],
     unique: true,
   },
+  password: { type: String },
   name: {
     type: userNameSchema,
     required: [true, "Student's name is required"],
@@ -142,10 +131,7 @@ const studentSchema = new Schema<Student>({
     type: String,
     required: [true, 'Email is required'],
     unique: true,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: 'Email format is not okay',
-    },
+    
   },
   contactNo: {
     type: String,
@@ -159,11 +145,11 @@ const studentSchema = new Schema<Student>({
     type: String,
     enum: ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
   },
-  presentAdress: {
+  presentAddress: {
     type: String,
     required: [true, 'Present address is required'],
   },
-  permanentAdress: {
+  permanentAddress: {
     type: String,
     required: [true, 'Permanent address is required'],
   },
@@ -183,7 +169,24 @@ const studentSchema = new Schema<Student>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+  isDeleted: {
+    type : Boolean,
+    default : false
+  }
 });
+
+studentSchema.pre('save',async function (next) {
+  this.password = await bcrypt.hash(this.password,Number(config.bcrypt_salt_rounds))
+  next()
+});
+studentSchema.post('save', function (doc,next) {
+  doc.password = '';
+  next()
+})
+
+studentSchema.pre('find',async function(next) {
+  console.log(this)
+})
 
 /*
                                     ---------------------- 
