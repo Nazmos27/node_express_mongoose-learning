@@ -104,89 +104,114 @@ Benefits of using schema:
 
 */
 
-const studentSchema = new Schema<Student>({
-  id: {
-    type: String,
-    required: [true, 'Student ID is required'],
-    unique: true,
-  },
-  password: { type: String },
-  name: {
-    type: userNameSchema,
-    required: [true, "Student's name is required"],
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ['male', 'female', 'other'],
-      message:
-        "{VALUE} is not supported! The gender field can be only 'male', 'female', or 'other'",
+const studentSchema = new Schema<Student>(
+  {
+    id: {
+      type: String,
+      required: [true, 'Student ID is required'],
+      unique: true,
     },
-    required: [true, 'Gender is required'],
+    password: { type: String },
+    name: {
+      type: userNameSchema,
+      required: [true, "Student's name is required"],
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ['male', 'female', 'other'],
+        message:
+          "{VALUE} is not supported! The gender field can be only 'male', 'female', or 'other'",
+      },
+      required: [true, 'Gender is required'],
+    },
+    dateOfBirth: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+    },
+    contactNo: {
+      type: String,
+      required: [true, 'Contact number is required'],
+    },
+    emergencyContactNo: {
+      type: String,
+      required: [true, 'Emergency contact number is required'],
+    },
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
+    },
+    presentAddress: {
+      type: String,
+      required: [true, 'Present address is required'],
+    },
+    permanentAddress: {
+      type: String,
+      required: [true, 'Permanent address is required'],
+    },
+    guardian: {
+      type: guardianSchema,
+      required: [true, 'Guardian details are required'],
+    },
+    localGuardian: {
+      type: localGuardianSchema,
+      required: [true, 'Local guardian details are required'],
+    },
+    profileImg: {
+      type: String,
+    },
+    isActive: {
+      type: String,
+      enum: ['active', 'blocked'],
+      default: 'active',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-  dateOfBirth: {
-    type: String,
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-    
-  },
-  contactNo: {
-    type: String,
-    required: [true, 'Contact number is required'],
-  },
-  emergencyContactNo: {
-    type: String,
-    required: [true, 'Emergency contact number is required'],
-  },
-  bloodGroup: {
-    type: String,
-    enum: ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
-  },
-  presentAddress: {
-    type: String,
-    required: [true, 'Present address is required'],
-  },
-  permanentAddress: {
-    type: String,
-    required: [true, 'Permanent address is required'],
-  },
-  guardian: {
-    type: guardianSchema,
-    required: [true, 'Guardian details are required'],
-  },
-  localGuardian: {
-    type: localGuardianSchema,
-    required: [true, 'Local guardian details are required'],
-  },
-  profileImg: {
-    type: String,
-  },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
-  },
-  isDeleted: {
-    type : Boolean,
-    default : false
-  }
+);
+
+//virtuals
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
-studentSchema.pre('save',async function (next) {
-  this.password = await bcrypt.hash(this.password,Number(config.bcrypt_salt_rounds))
-  next()
+//middleware
+studentSchema.pre('save', async function (next) {
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
 });
-studentSchema.post('save', function (doc,next) {
+studentSchema.post('save', function (doc, next) {
   doc.password = '';
-  next()
-})
+  next();
+});
 
-studentSchema.pre('find',async function(next) {
-  console.log(this)
-})
+studentSchema.pre('find', async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+studentSchema.pre('findOne', async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre('aggregate', async function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
 /*
                                     ---------------------- 
