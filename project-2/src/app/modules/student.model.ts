@@ -9,27 +9,6 @@ import validator from 'validator';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
 
-// const userNameSchema = new Schema<UserName>({
-//   firstName: { type: String, required: [true, "First name is required"] },
-//   middleName: { type: String },
-//   lastName: { type: String, required: [true, "Last name is required"] },
-// });
-
-// const guardianSchema = new Schema<Gurdian>({
-//   fatherName: { type: String, required: true },
-//   fatherOccupation: { type: String, required: true },
-//   fatherContactNo: { type: String, required: true },
-//   motherName: { type: String, required: true },
-//   motherOccupation: { type: String, required: true },
-//   motherContactNo: { type: String, required: true },
-// });
-
-// const localGuardianSchema = new Schema<LocalGuardian>({
-//   name: { type: String, required: true },
-//   occupation: { type: String, required: true },
-//   contactNo: { type: String, required: true },
-//   address: { type: String, required: true },
-// });
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -136,45 +115,6 @@ Benefits of using schema:
 
 
 */
-// const studentSchema = new Schema<Student>({
-//   id: { type: String, required : true, unique : true },
-//   name: {
-//     type: userNameSchema,
-//     required : true
-//   },
-//   gender: {
-//     type: String,
-//     enum : {
-//       values : ['male','female','other'],
-//       message : "{VALUES} is not supported! The gender field can be only 'male','female' or 'other'"
-//     },
-//     required : true
-//   },
-//   dateOfBirth: { type: String },
-//   email: { type: String, required: true, unique : true },
-//   contactNo: { type: String, required: true },
-//   emergencyContactNo: { type: String, required: true },
-//   bloodGroup: {
-//     type: String,
-//     enum :  ['A+', 'A-', 'O+', 'O-', 'AB+', 'AB-', 'B+', 'B-'],
-//   },
-//   presentAdress: { type: String, required: true },
-//   permanentAdress: { type: String, required: true },
-//   guardian:{
-//     type :  guardianSchema,
-//     required : true
-//   },
-//   localGuardian: {
-//     type : localGuardianSchema,
-//     required : true
-//   },
-//   profileImg: { type: String },
-//   isActive: {
-//     type : String,
-//     enum : ['active', 'blocked'],
-//     default : "active"
-//   },
-// });
 
 const studentSchema = new Schema<Student>({
   id: {
