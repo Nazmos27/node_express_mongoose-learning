@@ -1,8 +1,10 @@
-
 import { Schema, model } from 'mongoose';
-import bcrypt from 'bcrypt';
-import { TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface';
-import config from '../../config';
+import {
+  TGuardian,
+  TLocalGuardian,
+  TStudent,
+  TUserName,
+} from './student.interface';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
 
@@ -108,12 +110,11 @@ const studentSchema = new Schema<TStudent>(
       unique: true,
     },
     user: {
-      type : Schema.Types.ObjectId,
-      required : [true, "userId must be provided"],
-      unique : true,
-      ref : 'UserModel'
+      type: Schema.Types.ObjectId,
+      required: [true, 'userId must be provided'],
+      unique: true,
+      ref: 'UserModel',
     },
-    password: { type: String },
     name: {
       type: userNameSchema,
       required: [true, "Student's name is required"],
@@ -179,22 +180,13 @@ const studentSchema = new Schema<TStudent>(
 );
 
 //virtuals
+//viruals works for showing a variable or data in client side or in response but does not save it in database...as example the code below show fullName: in response constructed with user name info but in database there will not save any field named fullName
 studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
 //middleware
-studentSchema.pre('save', async function (next) {
-  this.password = await bcrypt.hash(
-    this.password,
-    Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-studentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  next();
-});
+
 
 studentSchema.pre('find', async function (next) {
   this.find({ isDeleted: { $ne: true } });
@@ -218,4 +210,4 @@ what is model in mongoose?
 ---> In Mongoose, a model is a constructor that you can use to create instances of your documents. It's built from a schema, which defines the structure of the documents within a collection. In TypeScript, you can define a model using the Model interface from Mongoose.
 */
 
-export const StudentModel = model<Student>('Student', studentSchema);
+export const StudentModel = model<TStudent>('Student', studentSchema);

@@ -1,7 +1,12 @@
-import express, { Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { StudentRoutes } from './app/modules/student/student.route';
 import { UserRoutes } from './app/modules/user/user.route';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import notFound from './app/middlewares/notFound';
 
 const app = express();
 // const port = 3000;
@@ -17,5 +22,8 @@ app.use('/api/v1/users', UserRoutes);
 app.get('/api/v1/students', (req: Request, res: Response) => {
   res.send('hello wo');
 });
+
+app.use(globalErrorHandler)
+app.use(notFound)
 
 export default app;

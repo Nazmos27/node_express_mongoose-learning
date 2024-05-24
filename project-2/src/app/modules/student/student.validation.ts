@@ -39,7 +39,6 @@ const localGuardianValidationSchema = Joi.object({
 
 const studentValidationSchema = Joi.object({
   id: Joi.string().required(),
-  password : Joi.string().required().max(20),
   name: userNameValidationSchema.required(),
   gender: Joi.string().valid('male', 'female', 'other').required(),
   dateOfBirth: Joi.date().iso(),
@@ -61,7 +60,7 @@ const studentValidationSchema = Joi.object({
   guardian: guardianValidationSchema.required(),
   localGuardian: localGuardianValidationSchema.required(),
   profileImg: Joi.string(),
-  isDeleted : Joi.boolean()
+  isDeleted: Joi.boolean(),
 });
 
 export default studentValidationSchema;

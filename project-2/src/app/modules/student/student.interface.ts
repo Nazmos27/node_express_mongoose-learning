@@ -1,6 +1,6 @@
 // import { Schema, model, connect } from 'mongoose';
 
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export type TGuardian = {
   fatherName: string;
@@ -26,8 +26,7 @@ export type TLocalGuardian = {
 
 export type TStudent = {
   id: string;
-  user : Types.ObjectId;
-  password: string;
+  user: Types.ObjectId;
   name: TUserName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth?: string;
@@ -40,5 +39,5 @@ export type TStudent = {
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
   profileImg?: string;
-  isDeleted : boolean
+  isDeleted: boolean;
 };

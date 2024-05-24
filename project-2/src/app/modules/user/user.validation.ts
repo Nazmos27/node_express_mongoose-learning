@@ -9,7 +9,6 @@ const userValidationSchema = Joi.object({
       'string.empty': 'Password cannot be an empty field',
       'any.required': 'Password is a required field',
     }),
-
 });
 
 export default userValidationSchema;
