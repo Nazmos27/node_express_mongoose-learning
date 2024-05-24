@@ -8,7 +8,8 @@ export type TUser = {
     isDeleted : boolean;
 }
 
-export type TNewUser = {
-    password : string;
-    role : string;
-}
+// export type TNewUser = {
+//     password : string;
+//     role : string;
+//     id : string
+// }
