@@ -1,16 +1,12 @@
-import {
-  Guardian,
-  LocalGuardian,
-  Student,
-  UserName,
-} from './student/student.interface';
+
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
-import config from '../config';
+import { TGuardian, TLocalGuardian, TStudent, TUserName } from './student.interface';
+import config from '../../config';
 
 //making sub-schema to minimize the messyness and to maintain clean codebase
 
-const userNameSchema = new Schema<UserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
@@ -30,7 +26,7 @@ const userNameSchema = new Schema<UserName>({
   },
 });
 
-const guardianSchema = new Schema<Guardian>({
+const guardianSchema = new Schema<TGuardian>({
   fatherName: {
     type: String,
     required: [true, "Father's name is required"],
@@ -57,7 +53,7 @@ const guardianSchema = new Schema<Guardian>({
   },
 });
 
-const localGuardianSchema = new Schema<LocalGuardian>({
+const localGuardianSchema = new Schema<TLocalGuardian>({
   name: {
     type: String,
     required: [true, "Local guardian's name is required"],
@@ -104,7 +100,7 @@ Benefits of using schema:
 
 */
 
-const studentSchema = new Schema<Student>(
+const studentSchema = new Schema<TStudent>(
   {
     id: {
       type: String,
