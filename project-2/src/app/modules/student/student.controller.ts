@@ -3,7 +3,11 @@ import { StudentServices } from './student.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 
-const getAllStudents = async (req: Request, res: Response, next : NextFunction) => {
+const getAllStudents = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await StudentServices.getStudentDB();
     // res.status(200).json({
@@ -12,19 +16,22 @@ const getAllStudents = async (req: Request, res: Response, next : NextFunction) 
     //   data: result,
     // });
 
-    sendResponse(res,{
-      statusCode : httpStatus.OK,
-      success : true,
-      message : 'Students data has retrieved successfully',
-      data : result
-    }) //this utils is used for prior block of response code...though it was said to be used for make the code cleaner but i found no imporvement here...here u see i have to write 5/6 lines of code every time as the prior so i decided not to use it...only used here for understanding the behaviour!
-
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Students data has retrieved successfully',
+      data: result,
+    }); //this utils is used for prior block of response code...though it was said to be used for make the code cleaner but i found no imporvement here...here u see i have to write 5/6 lines of code every time as the prior so i decided not to use it...only used here for understanding the behaviour!
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
-const getSingleStudentData = async (req: Request, res: Response, next : NextFunction) => {
+const getSingleStudentData = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await StudentServices.getSingleData(req.params.id);
     res.status(200).json({
@@ -33,10 +40,14 @@ const getSingleStudentData = async (req: Request, res: Response, next : NextFunc
       data: result,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
-const deleteStudent = async (req: Request, res: Response, next : NextFunction) => {
+const deleteStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await StudentServices.deleteStudentFromDB(req.params.id);
     res.status(200).json({
@@ -45,7 +56,7 @@ const deleteStudent = async (req: Request, res: Response, next : NextFunction) =
       data: result,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

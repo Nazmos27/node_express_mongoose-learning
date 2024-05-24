@@ -187,7 +187,6 @@ studentSchema.virtual('fullName').get(function () {
 
 //middleware
 
-
 studentSchema.pre('find', async function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
