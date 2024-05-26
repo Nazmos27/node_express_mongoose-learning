@@ -1,16 +1,9 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { StudentServices } from './student.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
+import catchAsync from '../../utils/catchAsync';
 
-//catchAsyc, a higher order function which will reduce repeatation of using tryCatch block
-const catchAsync = (fn: RequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((err) => next(err));
-  };
-};
-
-const getAllStudents: RequestHandler = catchAsync(async (req, res, next) => {
+const getAllStudents = catchAsync(async (req, res) => {
   const result = await StudentServices.getStudentDB();
   /* res.status(200).json({
        success: true,
@@ -28,25 +21,23 @@ const getAllStudents: RequestHandler = catchAsync(async (req, res, next) => {
     */
 });
 
-const getSingleStudentData: RequestHandler = catchAsync(
-  async (req, res, next) => {
-    const result = await StudentServices.getSingleData(req.params.id);
-    res.status(200).json({
-      success: true,
-      message: "Single Student's data has retrieved successfully",
-      data: result,
-    });
-  },
-);
+const getSingleStudentData = catchAsync(async (req, res) => {
+  const result = await StudentServices.getSingleData(req.params.id);
+  res.status(200).json({
+    success: true,
+    message: "Single Student's data has retrieved successfully",
+    data: result,
+  });
+});
 
-const deleteStudent: RequestHandler = catchAsync(async (req, res, next) => {
+const deleteStudent = catchAsync(async (req, res) => {
   const result = await StudentServices.deleteStudentFromDB(req.params.id);
   res.status(200).json({
     success: true,
     message: 'Data deleted successfully',
     data: result,
-  })
-})
+  });
+});
 
 export const StudentControllers = {
   getAllStudents,

@@ -22,9 +22,6 @@ const userNameSchema = new Schema<TUserName>({
   lastName: {
     type: String,
     required: [true, 'Last name is required'],
-    minlength: [1, 'Last name must be at least 1 characters long'],
-    maxlength: [20, 'Last name must be at most 20 characters long'],
-    trim: true,
   },
 });
 
