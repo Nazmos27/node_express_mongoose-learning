@@ -2,15 +2,6 @@ import Joi from 'joi';
 
 const userNameValidationSchema = Joi.object({
   firstName: Joi.string().min(1).max(20).trim().required(),
-  // .custom((value, helpers) => {
-  //   const firstLetterStr = value.charAt(0).toUpperCase() + value.slice(1);
-  //   if (firstLetterStr !== value) {
-  //     return helpers.error('any.custom', {
-  //       message: 'First name must have the first letter capitalized',
-  //     });
-  //   }
-  //   return value;
-  // }, 'First name capitalization validation'),
   middleName: Joi.string().allow('', null),
   lastName: Joi.string()
     .min(1)
@@ -44,7 +35,7 @@ const createStudentValidationSchema = Joi.object({
   student: Joi.object({
     name: userNameValidationSchema.required(),
     gender: Joi.string().valid('male', 'female', 'other').required(),
-    dateOfBirth: Joi.date().iso(),
+    dateOfBirth: Joi.date().optional(),
     email: Joi.string().email().required(),
     contactNo: Joi.string().required(),
     emergencyContactNo: Joi.string().required(),
