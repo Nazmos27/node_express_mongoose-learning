@@ -5,7 +5,9 @@ const userNameValidationSchema = Joi.object({
   // .custom((value, helpers) => {
   //   const firstLetterStr = value.charAt(0).toUpperCase() + value.slice(1);
   //   if (firstLetterStr !== value) {
-  //     return helpers.error('any.custom', { message: 'First name must have the first letter capitalized' });
+  //     return helpers.error('any.custom', {
+  //       message: 'First name must have the first letter capitalized',
+  //     });
   //   }
   //   return value;
   // }, 'First name capitalization validation'),
@@ -37,37 +39,38 @@ const localGuardianValidationSchema = Joi.object({
   address: Joi.string().required(),
 });
 
-const studentValidationSchema = Joi.object({
-  name: userNameValidationSchema.required(),
-  gender: Joi.string().valid('male', 'female', 'other').required(),
-  dateOfBirth: Joi.date().iso(),
-  email: Joi.string().email().required(),
-  contactNo: Joi.string().required(),
-  emergencyContactNo: Joi.string().required(),
-  bloodGroup: Joi.string().valid(
-    'A+',
-    'A-',
-    'O+',
-    'O-',
-    'AB+',
-    'AB-',
-    'B+',
-    'B-',
-  ),
-  presentAddress: Joi.string().required(),
-  permanentAddress: Joi.string().required(),
-  guardian: guardianValidationSchema.required(),
-  localGuardian: localGuardianValidationSchema.required(),
-  profileImg: Joi.string(),
-});
-
-
-const userValidationSchema = Joi.object({
+const createStudentValidationSchema = Joi.object({
   password: Joi.string().required(),
-  student: studentValidationSchema.required(),
+  student: Joi.object({
+    name: userNameValidationSchema.required(),
+    gender: Joi.string().valid('male', 'female', 'other').required(),
+    dateOfBirth: Joi.date().iso(),
+    email: Joi.string().email().required(),
+    contactNo: Joi.string().required(),
+    emergencyContactNo: Joi.string().required(),
+    bloodGroup: Joi.string().valid(
+      'A+',
+      'A-',
+      'O+',
+      'O-',
+      'AB+',
+      'AB-',
+      'B+',
+      'B-',
+    ),
+    presentAddress: Joi.string().required(),
+    permanentAddress: Joi.string().required(),
+    guardian: guardianValidationSchema.required(),
+    localGuardian: localGuardianValidationSchema.required(),
+    profileImg: Joi.string(),
+  }),
 });
+
+// const= Joi.object({
+//   password: Joi.string().required(),
+//   student: studentValidationSchema.required(),
+// });
 
 export const studentValidations = {
-  studentValidationSchema,
-  userValidationSchema,
+  createStudentValidationSchema,
 };
