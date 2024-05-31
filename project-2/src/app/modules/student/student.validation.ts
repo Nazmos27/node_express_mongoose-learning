@@ -35,7 +35,7 @@ const createStudentValidationSchema = Joi.object({
   student: Joi.object({
     name: userNameValidationSchema.required(),
     gender: Joi.string().valid('male', 'female', 'other').required(),
-    dateOfBirth: Joi.date().optional(),
+    dateOfBirth: Joi.string().optional(),
     email: Joi.string().email().required(),
     contactNo: Joi.string().required(),
     emergencyContactNo: Joi.string().required(),
@@ -54,6 +54,7 @@ const createStudentValidationSchema = Joi.object({
     guardian: guardianValidationSchema.required(),
     localGuardian: localGuardianValidationSchema.required(),
     profileImg: Joi.string(),
+    admissionSemester : Joi.string().required(),
   }),
 });
 

@@ -16,7 +16,7 @@ export const monthEnum: TMonth[] = [
   'December',
 ];
 
-export const semesterNameEnum = ['Autumn', 'Summer', 'Fall'] as const;
+export const semesterNameEnum = ['Autumn', 'Summar', 'Fall'] as const;
 export const semesterCodeEnum = ['01', '02', '03'] as const;
 
 const academicSemesterSchema = new Schema<TAcademicSemester>(
@@ -50,6 +50,17 @@ const academicSemesterSchema = new Schema<TAcademicSemester>(
     timestamps: true,
   },
 );
+
+academicSemesterSchema.pre('save', async function (next) {
+  const isSemesterExixst = await AcademicSemesterModel.findOne({
+    name: this.name,
+    year: this.year,
+  });
+  if (isSemesterExixst) {
+    throw new Error('Semester already exists');
+  }
+  next();
+});
 
 export const AcademicSemesterModel = model<TAcademicSemester>(
   'semester-info',
