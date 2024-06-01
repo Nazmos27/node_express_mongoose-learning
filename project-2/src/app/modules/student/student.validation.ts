@@ -55,6 +55,7 @@ const createStudentValidationSchema = Joi.object({
     localGuardian: localGuardianValidationSchema.required(),
     profileImg: Joi.string(),
     admissionSemester: Joi.string().required(),
+    academicDepartment: Joi.string().required(),
   }),
 });
 

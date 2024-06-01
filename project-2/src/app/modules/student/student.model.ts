@@ -110,7 +110,7 @@ const studentSchema = new Schema<TStudent>(
       type: Schema.Types.ObjectId,
       required: [true, 'userId must be provided'],
       unique: true,
-      ref: 'UserModel',
+      ref: 'users',
     },
     name: {
       type: userNameSchema,
@@ -166,7 +166,11 @@ const studentSchema = new Schema<TStudent>(
     },
     admissionSemester: {
       type: Schema.Types.ObjectId,
-      ref: 'AcademicSemesterModel',
+      ref: 'semester-infos',
+    },
+    academicDepartment : {
+      type : Schema.Types.ObjectId,
+      ref : 'academic-departments'
     },
     isDeleted: {
       type: Boolean,
