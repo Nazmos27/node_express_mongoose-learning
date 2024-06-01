@@ -1,4 +1,4 @@
-export type TMonth = 
+export type TMonth =
   | 'January'
   | 'February'
   | 'March'
@@ -12,16 +12,14 @@ export type TMonth =
   | 'November'
   | 'December';
 
-
 export type TAcademicSemester = {
-    name : 'Autumn' | 'Summar' | 'Fall',
-    code : '01' | '02' | '03',
-    year : string,
-    startMonth : TMonth,
-    endMonth : TMonth,
-
-}
+  name: 'Autumn' | 'Summar' | 'Fall';
+  code: '01' | '02' | '03';
+  year: string;
+  startMonth: TMonth;
+  endMonth: TMonth;
+};
 
 export type TAcademicSemesterNameCodeMapper = {
-    [key : string] : string
-}
+  [key: string]: string;
+};

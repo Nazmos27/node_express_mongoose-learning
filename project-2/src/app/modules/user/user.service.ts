@@ -23,8 +23,7 @@ import generateStudentID from './user.utils';
 //   userData.password = password || (config.default_password as string);
 
 //   //set student role
-//   userData.role = 'student';  
-  
+//   userData.role = 'student';
 
 //   const admissionSemester = await AcademicSemesterModel.findById(payLoad.admissionSemester)
 
@@ -74,7 +73,6 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     return newStudent;
   }
 };
-
 
 export const UserServices = {
   createStudentIntoDB,
