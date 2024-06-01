@@ -106,7 +106,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     const newStudent = await StudentModel.create([payload], { session });
 
     if (!newStudent.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create student');
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create afdasfa');
     }
 
     await session.commitTransaction();
@@ -114,6 +114,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
 
     return newStudent;
   } catch (err) {
+    console.log(err, 'error from rollback');
     await session.abortTransaction();
     await session.endSession();
     throw new Error('Failed to create student');
