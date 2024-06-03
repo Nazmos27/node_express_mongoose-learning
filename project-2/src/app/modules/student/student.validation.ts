@@ -60,6 +60,71 @@ const createStudentValidationSchema = Joi.object({
   }),
 });
 
+
+
+
+const updateUserNameValidationSchema = Joi.object({
+  firstName: Joi.string().min(1).max(20).trim().optional(),
+  middleName: Joi.string().allow('', null),
+  lastName: Joi.string()
+    .min(1)
+    .max(20)
+    .trim()
+    .optional()
+    .pattern(/^[A-Za-z]+$/, 'only alphabetic characters')
+    .messages({
+      'string.pattern.name': '{#label} should be character only',
+    }),
+});
+
+const updateGuardianValidationSchema = Joi.object({
+  fatherName: Joi.string().optional(),
+  fatherOccupation: Joi.string().optional(),
+  fatherContactNo: Joi.string().optional(),
+  motherName: Joi.string().optional(),
+  motherOccupation: Joi.string().optional(),
+  motherContactNo: Joi.string().optional(),
+});
+
+const updateLocalGuardianValidationSchema = Joi.object({
+  name: Joi.string().optional(),
+  occupation: Joi.string().optional(),
+  contactNo: Joi.string().optional(),
+  address: Joi.string().optional(),
+});
+
+
+
+
+const updateStudentValidationSchema = Joi.object({
+  student: Joi.object({
+    name: updateUserNameValidationSchema.optional(),
+    gender: Joi.string().valid('male', 'female', 'other').optional(),
+    dateOfBirth: Joi.string().optional(),
+    email: Joi.string().email().optional(),
+    contactNo: Joi.string().optional(),
+    emergencyContactNo: Joi.string().optional(),
+    bloodGroup: Joi.string().valid(
+      'A+',
+      'A-',
+      'O+',
+      'O-',
+      'AB+',
+      'AB-',
+      'B+',
+      'B-',
+    ),
+    presentAddress: Joi.string().optional(),
+    permanentAddress: Joi.string().optional(),
+    guardian: updateGuardianValidationSchema.optional(),
+    localGuardian: updateLocalGuardianValidationSchema.optional(),
+    profileImg: Joi.string(),
+    admissionSemester: Joi.string().optional(),
+    academicDepartment: Joi.string().optional(),
+    isDeleted: Joi.boolean(),
+  }),
+});
+
 // const= Joi.object({
 //   password: Joi.string().required(),
 //   student: studentValidationSchema.required(),
@@ -67,4 +132,5 @@ const createStudentValidationSchema = Joi.object({
 
 export const studentValidations = {
   createStudentValidationSchema,
+  updateStudentValidationSchema
 };
