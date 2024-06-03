@@ -12,7 +12,6 @@ const getStudentDB = async () => {
   return result;
 };
 
-
 const getSingleData = async (id: string) => {
   const result = await StudentModel.findOne({ id })
     .populate('admissionSemester')
@@ -59,38 +58,47 @@ const updateStudentFromDB = async (id: string, payLoad: Partial<TStudent>) => {
 
   console.log(modifiedUpdatedData);
 
-  const result = await StudentModel.findOneAndUpdate({ id }, modifiedUpdatedData, {
-    new: true,
-    runValidators: true,
-  });
+  const result = await StudentModel.findOneAndUpdate(
+    { id },
+    modifiedUpdatedData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
   return result;
 };
 
-
 const deleteStudentFromDB = async (id: string) => {
-
-  const session =await mongoose.startSession()
+  const session = await mongoose.startSession();
 
   try {
-    session.startTransaction()
-    const deletedStudent = await StudentModel.findOneAndUpdate({ id }, { isDeleted: true },{new : true,session})
-    if(!deletedStudent){
-      throw new AppError(httpStatus.NOT_MODIFIED,'Failed to delete student')
+    session.startTransaction();
+    const deletedStudent = await StudentModel.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
+    if (!deletedStudent) {
+      throw new AppError(httpStatus.NOT_MODIFIED, 'Failed to delete student');
     }
-    const deletedUser = await UserModel.findOneAndUpdate({id},{isDeleted : true}, {new : true,session})
-    if(!deletedUser){
-      throw new AppError(httpStatus.NOT_MODIFIED,'Failed to delete user')
+    const deletedUser = await UserModel.findOneAndUpdate(
+      { id },
+      { isDeleted: true },
+      { new: true, session },
+    );
+    if (!deletedUser) {
+      throw new AppError(httpStatus.NOT_MODIFIED, 'Failed to delete user');
     }
-    await session.commitTransaction()
-    await session.endSession()
+    await session.commitTransaction();
+    await session.endSession();
 
     return deletedStudent;
   } catch (error) {
-    await session.abortTransaction()
-    await session.endSession()
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR,'Failed to delete')
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to delete');
   }
-  
 };
 
 export const StudentServices = {

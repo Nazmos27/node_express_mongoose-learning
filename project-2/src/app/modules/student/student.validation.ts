@@ -60,9 +60,6 @@ const createStudentValidationSchema = Joi.object({
   }),
 });
 
-
-
-
 const updateUserNameValidationSchema = Joi.object({
   firstName: Joi.string().min(1).max(20).trim().optional(),
   middleName: Joi.string().allow('', null),
@@ -92,9 +89,6 @@ const updateLocalGuardianValidationSchema = Joi.object({
   contactNo: Joi.string().optional(),
   address: Joi.string().optional(),
 });
-
-
-
 
 const updateStudentValidationSchema = Joi.object({
   student: Joi.object({
@@ -132,5 +126,5 @@ const updateStudentValidationSchema = Joi.object({
 
 export const studentValidations = {
   createStudentValidationSchema,
-  updateStudentValidationSchema
+  updateStudentValidationSchema,
 };
