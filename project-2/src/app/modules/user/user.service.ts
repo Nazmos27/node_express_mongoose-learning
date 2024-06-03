@@ -114,7 +114,6 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
 
     return newStudent;
   } catch (err) {
-    console.log(err, 'error from rollback');
     await session.abortTransaction();
     await session.endSession();
     throw new Error('Failed to create student');
