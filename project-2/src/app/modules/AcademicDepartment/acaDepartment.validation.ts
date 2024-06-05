@@ -2,11 +2,7 @@ import Joi from 'joi';
 
 // Define the Joi validation schema
 export const createAcademicDepartmentValidationSchema = Joi.object({
-  name: Joi.string().required().messages({
-    'string.base': 'Department name should be a type of text',
-    'string.empty': 'Department name is required',
-    'any.required': 'Department name is required',
-  }),
+  name: Joi.string().required(),
   academicFaculty: Joi.string().messages({
     'string.base': 'Academic Faculty should be a type of text',
     'string.empty': 'Academic Faculty is required',
