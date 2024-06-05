@@ -5,6 +5,8 @@ import { ErrorRequestHandler } from 'express';
 import Joi from 'joi';
 import { TErrorSource } from '../global-interfaces/errorSource.interface';
 import config from '../config';
+import handleJoiError from '../errors/handleJoiError';
+import handleMongooseError from '../errors/handleMongooseError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let statusCode = error.statusCode || 500;
@@ -17,33 +19,23 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     },
   ];
 
-  const handleJoiError = (error : Joi.ValidationError) => {
-    const errorSources : TErrorSource = error.details.map((detail: any) => ({
-      path: detail?.path[detail.path.length-1],
-      message: detail.message,
-    }));
-    statusCode = 400
-    return {
-      statusCode,
-      message : "Validation error",
-      errorSources
-      
-    }
-  }
-
   if (error instanceof Joi.ValidationError) {
-    const simplifiedError = handleJoiError(error)
-    statusCode = simplifiedError.statusCode;
-    message = simplifiedError.message;
-    errorSources = simplifiedError.errorSources;
-
+    const simplifiedError = handleJoiError(error);
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
+  } else if (error?.name === 'ValidationError') {
+    const simplifiedError = handleMongooseError(error);
+    statusCode = simplifiedError?.statusCode;
+    message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources;
   }
 
   return res.status(statusCode).json({
     success: false,
     message: message,
     errorSources,
-    stack :config.node_env === 'development' ? error?.stack : null
+    stack: config.node_env === 'development' ? error?.stack : null,
   });
 };
 
