@@ -18,7 +18,7 @@ app.use(cors());
 app.use('/api/v1', router);
 
 app.get('/', async (req: Request, res: Response) => {
-  Promise.reject(); //this line for checking unhandledRejection error
+  //Promise.reject(); //this line for checking unhandledRejection error
   res.send('hello world');
 });
 
