@@ -73,7 +73,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 
 /*
                             ---------------------------------------------
-                                    creating schema for the student
+                                 creating schema for the student
                             ---------------------------------------------
 what is schema?
 ---> A schema in TypeScript is a way to define the structure of data in your application. It is used to define the shape of objects, including their properties and types. In the context of Mongoose, a schema is used to define the structure of documents that will be stored in a MongoDB database.
@@ -187,7 +187,7 @@ const studentSchema = new Schema<TStudent>(
 //virtuals
 //viruals works for showing a variable or data in client side or in response but does not save it in database...as example the code below show fullName: in response constructed with user name info but in database there will not save any field named fullName
 studentSchema.virtual('fullName').get(function () {
-  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+  return `${this?.name?.firstName} ${this?.name?.middleName} ${this?.name?.lastName}`;
 });
 
 //middleware
