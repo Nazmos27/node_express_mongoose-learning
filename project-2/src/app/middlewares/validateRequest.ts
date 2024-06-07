@@ -6,7 +6,7 @@ const validateRequest = (schema: Joi.Schema) => {
     try {
       const { error } = schema.validate(req.body);
       if (error) {
-        return next(error)
+        return next(error);
         // return res.status(400).json({
         //   status: 'error',
         //   message: error,
