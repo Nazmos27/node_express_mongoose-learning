@@ -1,7 +1,7 @@
 import { TAcademicSemester } from '../AcademicSemester/acaSem.interface';
 import { UserModel } from './user.model';
 
-const findLastStudentId = async () => {
+export const findLastStudentId = async () => {
   const lastStudent = await UserModel.findOne(
     {
       role: 'student',
@@ -16,7 +16,7 @@ const findLastStudentId = async () => {
   return lastStudent?.id ? lastStudent.id : undefined;
 };
 
-const generateStudentID = async (payload: TAcademicSemester) => {
+export const generateStudentID = async (payload: TAcademicSemester) => {
   //first time 0000
   let currentId = (0).toString(); //0000 by default
   const lastStudentId = await findLastStudentId();
@@ -38,4 +38,38 @@ const generateStudentID = async (payload: TAcademicSemester) => {
   return incrementId;
 };
 
-export default generateStudentID;
+//faculty Id
+
+export const findLastFacultyId = async () => {
+  const lastFaculty = await UserModel.findOne(
+    {
+      role: 'faculty',
+    },
+    {
+      id: 1,
+      _id: 0,
+    },
+  )
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
+
+  return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
+};
+
+export const generateFacultyId = async () => {
+  let currentId = (0).toString();
+  const lastFacultyId = await findLastFacultyId();
+
+  if (lastFacultyId) {
+    currentId = lastFacultyId.substring(2);
+  }
+
+  let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
+
+  incrementId = `F-${incrementId}`;
+
+  return incrementId;
+};
+
