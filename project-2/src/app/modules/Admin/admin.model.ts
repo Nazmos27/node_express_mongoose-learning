@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { AdminModel, TAdmin, TUserName } from './admin.interface';
+import { AdminInterface, TAdmin, TUserName } from './admin.interface';
 import { BloodGroup, Gender } from './admin.constant';
 
 const userNameSchema = new Schema<TUserName>({
@@ -21,7 +21,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const adminSchema = new Schema<TAdmin, AdminModel>(
+const adminSchema = new Schema<TAdmin, AdminInterface>(
   {
     id: {
       type: String,
@@ -118,8 +118,8 @@ adminSchema.pre('aggregate', function (next) {
 
 //checking if user is already exist!
 adminSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Admin.findOne({ id });
+  const existingUser = await AdminModel.findOne({ id });
   return existingUser;
 };
 
-export const Admin = model<TAdmin, AdminModel>('Admin', adminSchema);
+export const AdminModel = model<TAdmin, AdminInterface>('Admin', adminSchema);
