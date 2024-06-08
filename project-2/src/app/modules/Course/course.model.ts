@@ -55,8 +55,7 @@ const courseSchema = new Schema<TCourse>(
   },
 );
 
-export const Course = model<TCourse>('Course', courseSchema);
-
+export const CourseModel = model<TCourse>('Course', courseSchema);
 const courseFacultySchema = new Schema<TCoursefaculty>({
   course: {
     type: Schema.Types.ObjectId,
