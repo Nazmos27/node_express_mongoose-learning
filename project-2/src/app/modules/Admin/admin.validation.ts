@@ -9,7 +9,7 @@ const createUserNameValidationSchema = Joi.object({
 });
 
 // Create Admin Validation Schema
-const createAdminValidationSchema = Joi.object({
+export const createAdminValidationSchema = Joi.object({
     password: Joi.string().max(20).required(),
     admin: Joi.object({
       designation: Joi.string().required(),
@@ -35,7 +35,7 @@ const updateUserNameValidationSchema = Joi.object({
 });
 
 // Update Admin Validation Schema
-const updateAdminValidationSchema = Joi.object({
+export const updateAdminValidationSchema = Joi.object({
     admin: Joi.object({
       name: updateUserNameValidationSchema.optional(),
       designation: Joi.string().max(30).optional(),
