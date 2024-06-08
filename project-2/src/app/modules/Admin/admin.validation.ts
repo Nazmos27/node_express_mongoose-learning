@@ -1,26 +1,19 @@
 import Joi from 'joi';
-import { BloodGroup, Gender } from './faculty.constant';
+import { BloodGroup, Gender } from './admin.constant';
 
 // Create User Name Validation Schema
 const createUserNameValidationSchema = Joi.object({
-  firstName: Joi.string()
-    .min(1)
-    .max(20)
-    .pattern(/^[A-Z]/)
-    .messages({
-      'string.pattern.base': 'First Name must start with a capital letter',
-    })
-    .required(),
-  middleName: Joi.string().optional(),
-  lastName: Joi.string().required(),
+  firstName: Joi.string().min(1).max(20).required(),
+  middleName: Joi.string().max(20).optional(),
+  lastName: Joi.string().max(20).required(),
 });
 
-// Create Faculty Validation Schema
-export const createFacultyValidationSchema = Joi.object({
+// Create Admin Validation Schema
+const createAdminValidationSchema = Joi.object({
     password: Joi.string().max(20).required(),
-    faculty: Joi.object({
+    admin: Joi.object({
       designation: Joi.string().required(),
-      name: createUserNameValidationSchema,
+      name: createUserNameValidationSchema.required(),
       gender: Joi.string().valid(...Gender).required(),
       dateOfBirth: Joi.string().optional(),
       email: Joi.string().email().required(),
@@ -29,25 +22,23 @@ export const createFacultyValidationSchema = Joi.object({
       bloodGroup: Joi.string().valid(...BloodGroup).required(),
       presentAddress: Joi.string().required(),
       permanentAddress: Joi.string().required(),
-      academicDepartment: Joi.string().required(),
       profileImg: Joi.string().optional(),
-    }).required()
+    }).required(),
+
 });
 
 // Update User Name Validation Schema
 const updateUserNameValidationSchema = Joi.object({
-  firstName: Joi.string().min(1).max(20).pattern(/^[A-Z]/).messages({
-    'string.pattern.base': 'First Name must start with a capital letter',
-  }).optional(),
-  middleName: Joi.string().optional(),
-  lastName: Joi.string().optional(),
+  firstName: Joi.string().min(3).max(20).optional(),
+  middleName: Joi.string().min(3).max(20).optional(),
+  lastName: Joi.string().min(3).max(20).optional(),
 });
 
-// Update Faculty Validation Schema
-export const updateFacultyValidationSchema = Joi.object({
-    faculty: Joi.object({
-      designation: Joi.string().optional(),
+// Update Admin Validation Schema
+const updateAdminValidationSchema = Joi.object({
+    admin: Joi.object({
       name: updateUserNameValidationSchema.optional(),
+      designation: Joi.string().max(30).optional(),
       gender: Joi.string().valid(...Gender).optional(),
       dateOfBirth: Joi.string().optional(),
       email: Joi.string().email().optional(),
@@ -56,13 +47,11 @@ export const updateFacultyValidationSchema = Joi.object({
       bloodGroup: Joi.string().valid(...BloodGroup).optional(),
       presentAddress: Joi.string().optional(),
       permanentAddress: Joi.string().optional(),
-      academicDepartment: Joi.string().optional(),
       profileImg: Joi.string().optional(),
     }).optional(),
-
 });
 
-export const studentValidations = {
-  createFacultyValidationSchema,
-  updateFacultyValidationSchema,
+export const AdminValidations = {
+  createAdminValidationSchema,
+  updateAdminValidationSchema,
 };
