@@ -16,7 +16,7 @@ const createUserNameValidationSchema = Joi.object({
 });
 
 // Create Faculty Validation Schema
-const createFacultyValidationSchema = Joi.object({
+export const createFacultyValidationSchema = Joi.object({
   body: Joi.object({
     password: Joi.string().max(20).required(),
     faculty: Joi.object({
@@ -46,7 +46,7 @@ const updateUserNameValidationSchema = Joi.object({
 });
 
 // Update Faculty Validation Schema
-const updateFacultyValidationSchema = Joi.object({
+export const updateFacultyValidationSchema = Joi.object({
   body: Joi.object({
     faculty: Joi.object({
       designation: Joi.string().optional(),
