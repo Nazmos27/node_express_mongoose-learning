@@ -11,7 +11,6 @@ const userNameSchema = new Schema<TUserName>({
   },
   middleName: {
     type: String,
-    trim: true,
   },
   lastName: {
     type: String,
@@ -32,7 +31,7 @@ const adminSchema = new Schema<TAdmin, AdminInterface>(
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
       unique: true,
-      ref: 'User',
+      ref: 'users',
     },
     designation: {
       type: String,
