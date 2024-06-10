@@ -206,6 +206,13 @@ studentSchema.pre('aggregate', async function (next) {
   next();
 });
 
+
+//creating a custom static method
+studentSchema.statics.isUserExists = async function(id:string) {
+  const existingUser = await StudentModel.findOne({id})
+  return existingUser;
+}
+
 /*
                                     ---------------------- 
                                          creating model 
