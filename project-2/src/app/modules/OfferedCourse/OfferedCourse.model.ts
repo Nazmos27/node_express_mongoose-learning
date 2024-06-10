@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { Days } from './OfferedCourse.constant';
-import { TOfferedCourse } from './OfferedCourse.interface';
+import { TOfferedCourse } from './offeredCourse.iterface';
 
 const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
   {
@@ -12,17 +12,17 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
     academicSemester: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'AcademicSemester',
+      ref: 'semester-infos',
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'AcademicFaculty',
+      ref: 'academic-faculties',
     },
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'AcademicDepartment',
+      ref: 'academic-departments',
     },
     course: {
       type: Schema.Types.ObjectId,
@@ -62,7 +62,7 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
   },
 );
 
-export const OfferedCourse = mongoose.model<TOfferedCourse>(
+export const OfferedCourseModel = mongoose.model<TOfferedCourse>(
   'OfferedCourse',
   offeredCourseSchema,
 );
