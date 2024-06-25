@@ -50,11 +50,21 @@ export const createOfferedCourseValidationSchema = Joi.object({
 //   });
 
 export const updateOfferedCourseValidationSchema = Joi.object({
-  faculty: Joi.string().optional(),
-  maxCapacity: Joi.number().optional(),
+  faculty: Joi.string(),
+  maxCapacity: Joi.number(),
   days: Joi.array()
     .items(Joi.string().valid(...Days))
-    .optional(),
-  startTime: Joi.string().optional(),
-  endTime: Joi.string().optional(),
-});
+    ,
+    startTime: timeStringSchema.required(), // Validate time format
+    endTime: timeStringSchema.required(), // Validate time format
+}).custom((value: TOfferedCourse, helpers: CustomHelpers) => {
+  const start = new Date(`1970-01-01T${value.startTime}:00`);
+  const end = new Date(`1970-01-01T${value.endTime}:00`);
+
+  if (end <= start) {
+    return helpers.error('any.invalid', {
+      message: 'Start time should be before End time!',
+    });
+  }
+  return value;
+}, 'Start time should be before End time validation');;
