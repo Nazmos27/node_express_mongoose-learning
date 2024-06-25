@@ -1,6 +1,6 @@
 import Joi, { CustomHelpers } from 'joi';
 import { Days } from './OfferedCourse.constant';
-import { TOfferedCourse } from './offeredCourse.iterface';
+import { TOfferedCourse } from './OfferedCourse.iterface';
 
 // Custom time string validation
 const timeStringSchema = Joi.string()
