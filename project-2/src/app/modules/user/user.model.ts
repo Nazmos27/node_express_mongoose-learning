@@ -19,6 +19,9 @@ const userSchema = new Schema<TUser, UserModelInterface>(
       type: Boolean,
       default: true,
     },
+    passwordChangedAt: {
+      type: Date,
+    },
     role: {
       type: String,
       enum: ['student', 'faculty', 'admin'],
@@ -63,6 +66,13 @@ userSchema.statics.isUserDeletedChecker = async function (userData: TUser) {
 userSchema.statics.isUserStatusChecker = async function (userData: TUser) {
   return userData?.status === 'blocked';
 };
+
+userSchema.statics.isNewTokenGrantedAfterPassChangeChecker = async function (passwordChangedTimestamp : Date, tokenIssuedTimestamp : number) {
+  const passwordChangedTime = new Date(passwordChangedTimestamp).getTime()/1000
+  return passwordChangedTime > tokenIssuedTimestamp
+};
+
+
 
 userSchema.statics.isPasswordMatchedChecker = async function (
   plaintextPassword: string,

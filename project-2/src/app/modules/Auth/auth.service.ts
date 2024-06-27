@@ -108,7 +108,7 @@ const changePassword = async (
    await UserModel.findOneAndUpdate({
     id: userData.userId,
     role: userData.role,
-  },{password : newHashedPassword , needsPasswordChange : false});
+  },{password : newHashedPassword , needsPasswordChange : false, passwordChangedAt : new Date});
 
   return null
 };
