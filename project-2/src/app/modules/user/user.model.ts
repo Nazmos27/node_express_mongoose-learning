@@ -13,6 +13,7 @@ const userSchema = new Schema<TUser, UserModelInterface>(
     password: {
       type: String,
       required: true,
+      select: 0,
     },
     needsPasswordChange: {
       type: Boolean,
@@ -52,15 +53,15 @@ userSchema.post('save', function (doc, next) {
 });
 
 userSchema.statics.isUserExistChecker = async function (id: string) {
-  return await UserModel.findOne({ id });
+  return await UserModel.findOne({ id }).select('+password');
 };
 
-userSchema.statics.isUserDeletedChecker = async function (userData : TUser) {
-  return userData?.isDeleted
+userSchema.statics.isUserDeletedChecker = async function (userData: TUser) {
+  return userData?.isDeleted;
 };
 
-userSchema.statics.isUserStatusChecker = async function (userData : TUser) {
-  return userData?.status === 'blocked'
+userSchema.statics.isUserStatusChecker = async function (userData: TUser) {
+  return userData?.status === 'blocked';
 };
 
 userSchema.statics.isPasswordMatchedChecker = async function (
