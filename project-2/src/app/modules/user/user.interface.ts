@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
+import { USER_ROLE } from "./user.constant";
 
 export interface TUser {
   id: string;
@@ -17,3 +18,5 @@ export interface UserModelInterface extends Model<TUser>{
   isUserDeletedChecker(userData : TUser) : Promise<boolean>
   isUserStatusChecker(userData : TUser) : Promise<boolean>
 }
+
+export type TUserRolls = keyof typeof USER_ROLE

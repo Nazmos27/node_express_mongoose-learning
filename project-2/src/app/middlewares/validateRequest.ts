@@ -7,10 +7,6 @@ const validateRequest = (schema: Joi.Schema) => {
       const { error } = schema.validate(req.body);
       if (error) {
         return next(error);
-        // return res.status(400).json({
-        //   status: 'error',
-        //   message: error,
-        // });
       }
       next();
     } catch (error) {
@@ -20,3 +16,12 @@ const validateRequest = (schema: Joi.Schema) => {
 };
 
 export default validateRequest;
+
+// catchAsync(async (req, res, next) => {
+//   const { error } = schema.validate(req.body);
+//   if (error) {
+//     return next(error);
+//   }
+//   next();
+
+// }) cleaner code of above code
