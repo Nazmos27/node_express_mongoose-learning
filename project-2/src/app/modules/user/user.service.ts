@@ -6,14 +6,17 @@ import { TStudent } from '../student/student.interface';
 import { StudentModel } from '../student/student.model';
 import { TUser } from './user.interface';
 import { UserModel } from './user.model';
-import { generateAdminId, generateFacultyId, generateStudentID } from './user.utils';
+import {
+  generateAdminId,
+  generateFacultyId,
+  generateStudentID,
+} from './user.utils';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { TFaculty } from '../Faculty/faculty.interface';
 import { AcademicDepartmentModel } from '../AcademicDepartment/acaDepartment.model';
 import { FacultyModel } from '../Faculty/faculty.model';
 import { AdminModel } from '../Admin/admin.model';
-
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // create a user object
@@ -118,7 +121,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     await session.endSession();
 
     return newFaculty;
-  } catch (err : any) {
+  } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
     throw new Error(err);
@@ -143,7 +146,7 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
     userData.id = await generateAdminId();
 
     // create a user (transaction-1)
-    const newUser = await UserModel.create([userData], { session }); 
+    const newUser = await UserModel.create([userData], { session });
 
     //create a admin
     if (!newUser.length) {
@@ -170,8 +173,6 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
     throw new Error(err);
   }
 };
-
-
 
 export const UserServices = {
   createStudentIntoDB,

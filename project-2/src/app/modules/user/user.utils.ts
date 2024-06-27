@@ -106,4 +106,3 @@ export const generateAdminId = async () => {
   incrementId = `A-${incrementId}`;
   return incrementId;
 };
-

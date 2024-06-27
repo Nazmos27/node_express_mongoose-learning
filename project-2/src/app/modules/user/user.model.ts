@@ -67,12 +67,14 @@ userSchema.statics.isUserStatusChecker = async function (userData: TUser) {
   return userData?.status === 'blocked';
 };
 
-userSchema.statics.isNewTokenGrantedAfterPassChangeChecker = async function (passwordChangedTimestamp : Date, tokenIssuedTimestamp : number) {
-  const passwordChangedTime = new Date(passwordChangedTimestamp).getTime()/1000
-  return passwordChangedTime > tokenIssuedTimestamp
+userSchema.statics.isNewTokenGrantedAfterPassChangeChecker = async function (
+  passwordChangedTimestamp: Date,
+  tokenIssuedTimestamp: number,
+) {
+  const passwordChangedTime =
+    new Date(passwordChangedTimestamp).getTime() / 1000;
+  return passwordChangedTime > tokenIssuedTimestamp;
 };
-
-
 
 userSchema.statics.isPasswordMatchedChecker = async function (
   plaintextPassword: string,

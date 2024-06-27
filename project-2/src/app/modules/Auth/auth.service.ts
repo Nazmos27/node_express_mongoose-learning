@@ -4,7 +4,7 @@ import { UserModel } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 const loginUser = async (payload: TLoginUser) => {
   const user = await UserModel.isUserExistChecker(payload.id);
@@ -103,14 +103,24 @@ const changePassword = async (
   }
 
   //hash the password
-  const newHashedPassword = await bcrypt.hash(payload.newPassword, Number(config.bcrypt_salt_rounds));
+  const newHashedPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.bcrypt_salt_rounds),
+  );
 
-   await UserModel.findOneAndUpdate({
-    id: userData.userId,
-    role: userData.role,
-  },{password : newHashedPassword , needsPasswordChange : false, passwordChangedAt : new Date});
+  await UserModel.findOneAndUpdate(
+    {
+      id: userData.userId,
+      role: userData.role,
+    },
+    {
+      password: newHashedPassword,
+      needsPasswordChange: false,
+      passwordChangedAt: new Date(),
+    },
+  );
 
-  return null
+  return null;
 };
 
 export const AuthServices = {

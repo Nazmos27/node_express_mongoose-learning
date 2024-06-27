@@ -130,8 +130,7 @@ const updateOfferedCourseIntoDB = async (
   id: string,
   payload: Pick<TOfferedCourse, 'faculty' | 'startTime' | 'endTime' | 'days'>,
 ) => {
-
-  const {faculty, days, startTime, endTime} = payload;
+  const { faculty, days, startTime, endTime } = payload;
 
   const isOfferedCourseExists = await OfferedCourseModel.findById(id);
   if (!isOfferedCourseExists) {
@@ -142,16 +141,19 @@ const updateOfferedCourseIntoDB = async (
     throw new AppError(httpStatus.NOT_FOUND, 'Faculty not found');
   }
 
-  const semesterRegistration = isOfferedCourseExists.semesterRegistration
+  const semesterRegistration = isOfferedCourseExists.semesterRegistration;
 
-  const semesterRegistrationStatus = await SemesterRegistrationModel.findById(semesterRegistration)
-  if(semesterRegistrationStatus?.status !== 'UPCOMING'){
-    throw new AppError(httpStatus.BAD_REQUEST, `Offered Course can not be updated as it is ${semesterRegistrationStatus?.status}`)
+  const semesterRegistrationStatus =
+    await SemesterRegistrationModel.findById(semesterRegistration);
+  if (semesterRegistrationStatus?.status !== 'UPCOMING') {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Offered Course can not be updated as it is ${semesterRegistrationStatus?.status}`,
+    );
   }
 
-
-   //get the schedule of the faculties
-   const assignedSchedules = await OfferedCourseModel.find({
+  //get the schedule of the faculties
+  const assignedSchedules = await OfferedCourseModel.find({
     semesterRegistration,
     faculty,
     days: { $in: days },
@@ -170,8 +172,10 @@ const updateOfferedCourseIntoDB = async (
     );
   }
 
-  const result = await OfferedCourseModel.findByIdAndUpdate(id,payload,{ new : true})
-  return result
+  const result = await OfferedCourseModel.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
 };
 
 export const OfferedCourseServices = {

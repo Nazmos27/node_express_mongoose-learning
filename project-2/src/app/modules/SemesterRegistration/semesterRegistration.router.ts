@@ -1,20 +1,34 @@
-import express from 'express'
-import validateRequest from '../../middlewares/validateRequest'
-import { createSemesterRegistrationValidationSchema, updateSemesterRegistrationValidationSchema } from './semesterRegistration.validation'
-import { SemesterRegistrationController } from './semesterRegistration.controller'
-const router = express.Router()
+import express from 'express';
+import validateRequest from '../../middlewares/validateRequest';
+import {
+  createSemesterRegistrationValidationSchema,
+  updateSemesterRegistrationValidationSchema,
+} from './semesterRegistration.validation';
+import { SemesterRegistrationController } from './semesterRegistration.controller';
+const router = express.Router();
 
-router.post('/create-semester-registration',validateRequest(createSemesterRegistrationValidationSchema),SemesterRegistrationController.createSemesterRegistration)
+router.post(
+  '/create-semester-registration',
+  validateRequest(createSemesterRegistrationValidationSchema),
+  SemesterRegistrationController.createSemesterRegistration,
+);
 
-router.get('/',SemesterRegistrationController.getAllSemesterRegistrations)
+router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
-router.get('/:id',SemesterRegistrationController.getSingleSemesterRegistration)
+router.get(
+  '/:id',
+  SemesterRegistrationController.getSingleSemesterRegistration,
+);
 
-router.patch('/:id',validateRequest(updateSemesterRegistrationValidationSchema),SemesterRegistrationController.updateSemesterRegistration)
+router.patch(
+  '/:id',
+  validateRequest(updateSemesterRegistrationValidationSchema),
+  SemesterRegistrationController.updateSemesterRegistration,
+);
 
 router.delete(
-    '/:id',
-    SemesterRegistrationController.deleteSemesterRegistration,
-  );
+  '/:id',
+  SemesterRegistrationController.deleteSemesterRegistration,
+);
 
-export const SemesterRegistrationRoutes = router
+export const SemesterRegistrationRoutes = router;

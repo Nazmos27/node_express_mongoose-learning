@@ -52,11 +52,9 @@ export const createOfferedCourseValidationSchema = Joi.object({
 export const updateOfferedCourseValidationSchema = Joi.object({
   faculty: Joi.string(),
   maxCapacity: Joi.number(),
-  days: Joi.array()
-    .items(Joi.string().valid(...Days))
-    ,
-    startTime: timeStringSchema.required(), // Validate time format
-    endTime: timeStringSchema.required(), // Validate time format
+  days: Joi.array().items(Joi.string().valid(...Days)),
+  startTime: timeStringSchema.required(), // Validate time format
+  endTime: timeStringSchema.required(), // Validate time format
 }).custom((value: TOfferedCourse, helpers: CustomHelpers) => {
   const start = new Date(`1970-01-01T${value.startTime}:00`);
   const end = new Date(`1970-01-01T${value.endTime}:00`);
@@ -67,4 +65,4 @@ export const updateOfferedCourseValidationSchema = Joi.object({
     });
   }
   return value;
-}, 'Start time should be before End time validation');;
+}, 'Start time should be before End time validation');

@@ -77,9 +77,9 @@ const updateSemesterRegistrationIntoDB = async (
   id: string,
   payLoad: Partial<TSemesterRegistration>,
 ) => {
-
-    //check if requested semester exist or not
-    const isSemesterRegistrtionExists = await SemesterRegistrationModel.findById(id);
+  //check if requested semester exist or not
+  const isSemesterRegistrtionExists =
+    await SemesterRegistrationModel.findById(id);
   if (!isSemesterRegistrtionExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
@@ -88,30 +88,35 @@ const updateSemesterRegistrationIntoDB = async (
   }
 
   //if the requested semester registration ended, we will not update anything
-  const requestedStatus = payLoad?.status
-  const requestedSemesterStatus = isSemesterRegistrtionExists?.status
-  if (requestedSemesterStatus === RegistrationStatus.ENDED) { //used readOnly objData to avoid spelling mistake.here used as example how to ensure spelling consistency 
+  const requestedStatus = payLoad?.status;
+  const requestedSemesterStatus = isSemesterRegistrtionExists?.status;
+  if (requestedSemesterStatus === RegistrationStatus.ENDED) {
+    //used readOnly objData to avoid spelling mistake.here used as example how to ensure spelling consistency
     throw new AppError(
       httpStatus.BAD_REQUEST,
       `This semester is Already ${requestedSemesterStatus}`,
     );
   }
 
-  //UPCOMING --> ONGOING --> ENDED 
-  if(requestedSemesterStatus === 'UPCOMING' && requestedStatus === 'ENDED'){
+  //UPCOMING --> ONGOING --> ENDED
+  if (requestedSemesterStatus === 'UPCOMING' && requestedStatus === 'ENDED') {
     throw new AppError(
-        httpStatus.BAD_REQUEST,
-        `You can not directly change status from 'UPCOMING' to 'ENDED'`,
-      ); 
+      httpStatus.BAD_REQUEST,
+      `You can not directly change status from 'UPCOMING' to 'ENDED'`,
+    );
   }
-  if(requestedSemesterStatus === 'ONGOING' && requestedStatus === 'UPCOMING'){
+  if (requestedSemesterStatus === 'ONGOING' && requestedStatus === 'UPCOMING') {
     throw new AppError(
-        httpStatus.BAD_REQUEST,
-        `You can not directly change status from 'ONGOING' to 'UPCOMING'`,
-      ); 
+      httpStatus.BAD_REQUEST,
+      `You can not directly change status from 'ONGOING' to 'UPCOMING'`,
+    );
   }
 
-  const result = await SemesterRegistrationModel.findByIdAndUpdate(id,payLoad,{new : true, runValidators : true})
+  const result = await SemesterRegistrationModel.findByIdAndUpdate(
+    id,
+    payLoad,
+    { new: true, runValidators: true },
+  );
   return result;
 };
 
@@ -123,7 +128,8 @@ const deleteSemesterRegistrationFromDB = async (id: string) => {
   **/
 
   // checking if the semester registration is exist
-  const isSemesterRegistrationExists = await SemesterRegistrationModel.findById(id);
+  const isSemesterRegistrationExists =
+    await SemesterRegistrationModel.findById(id);
 
   if (!isSemesterRegistrationExists) {
     throw new AppError(
