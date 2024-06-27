@@ -1,4 +1,7 @@
-export type TUser = {
+/* eslint-disable no-unused-vars */
+import { Model } from "mongoose";
+
+export interface TUser {
   id: string;
   password: string;
   needsPasswordChange: boolean;
@@ -7,8 +10,10 @@ export type TUser = {
   isDeleted: boolean;
 };
 
-// export type TNewUser = {
-//     password : string;
-//     role : string;
-//     id : string
-// }
+export interface UserModelInterface extends Model<TUser>{
+  // myStaticMethod() : number
+  isUserExistChecker(id: string) : Promise<TUser>   
+  isPasswordMatchedChecker(plaintextPassword : string, hashedPassword : string) : Promise<boolean>
+  isUserDeletedChecker(userData : TUser) : Promise<boolean>
+  isUserStatusChecker(userData : TUser) : Promise<boolean>
+}

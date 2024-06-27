@@ -1,9 +1,74 @@
-import { TLoginUser } from "./auth.interface";
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
+import { UserModel } from '../user/user.model';
+import { TLoginUser } from './auth.interface';
+import jwt from 'jsonwebtoken'
+import config from '../../config';
+const loginUser = async (payload: TLoginUser) => {
+  const user = await UserModel.isUserExistChecker(payload.id);
+  //check if the user exist using static method
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found');
+  }
 
-const loginUser = async(payload : TLoginUser) => {
-    console.log(payload); 
-}
+  //checking if the password is correct using static method
+  if (
+    !(await UserModel.isPasswordMatchedChecker(
+      payload?.password,
+      user?.password,
+    ))
+  ) {
+    throw new AppError(httpStatus.FORBIDDEN, 'Password is incorrect');
+  }
+
+  //checking if the user is already deleted
+  if (await UserModel.isUserDeletedChecker(user)) {
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is already deleted');
+  }
+  //checking if the user is already blocked
+  if (await UserModel.isUserStatusChecker(user)) {
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is X Blocked! X');
+  }
+
+  //generate access token
+
+  const jwtPayload = {
+    userId : user.id,
+    role : user.role
+  }
+
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, { expiresIn: '10d' });
+
+  return {
+    accessToken,
+    needsPasswordChange : user?.needsPasswordChange
+  }
+
+  /*
+  //check if the user exist
+  const isUserExist = await UserModel.findOne({ id: payload.id });
+  if (!isUserExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found');
+  }
+  //checking if the user is already deleted
+  const isDeleted = isUserExist?.isDeleted
+  if(isDeleted){
+    throw new AppError(httpStatus.NOT_FOUND,'This user was deleted so not found')
+  }
+  //checking if the user is blocked
+  const isBlocked = isUserExist?.status === 'blocked'
+  if(isBlocked){
+    throw new AppError(httpStatus.NOT_FOUND,'This user is blocked')
+  }
+
+  //checking if the password is correct
+  const isPasswordMatched =await bcrypt.compare(payload?.password, isUserExist?.password)
+  if(isPasswordMatched){
+    throw new AppError(httpStatus.BAD_REQUEST,'The password does not match correctly')
+  }
+    */
+};
 
 export const AuthServices = {
-    loginUser
-}
+  loginUser,
+};
