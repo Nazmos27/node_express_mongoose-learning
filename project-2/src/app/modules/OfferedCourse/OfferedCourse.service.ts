@@ -1,7 +1,6 @@
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { SemesterRegistrationModel } from '../SemesterRegistration/semesterRegistration.model';
-import { TOfferedCourse } from './OfferedCourse.iterface';
 import { OfferedCourseModel } from './OfferedCourse.model';
 import { AcademicFacultyModel } from '../AcademicFaculty/acaFaculty.model';
 import { AcademicDepartmentModel } from '../AcademicDepartment/acaDepartment.model';
@@ -9,6 +8,7 @@ import { CourseModel } from '../Course/course.model';
 import { FacultyModel } from '../Faculty/faculty.model';
 import hasTimeConflict from './OfferedCourse.utils';
 import QueryBuilder from '../../builder/QueryBuilder';
+import { TOfferedCourse } from './OfferedCourse.iterface';
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
@@ -182,4 +182,5 @@ export const OfferedCourseServices = {
   createOfferedCourseIntoDB,
   getSingleOfferedCourseFromDB,
   getAllOfferedCoursesFromDB,
+  updateOfferedCourseIntoDB,
 };
