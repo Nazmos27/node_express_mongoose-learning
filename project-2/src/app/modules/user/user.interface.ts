@@ -23,7 +23,7 @@ export interface UserModelInterface extends Model<TUser> {
   isUserStatusChecker(userData: TUser): Promise<boolean>;
   isNewTokenGrantedAfterPassChangeChecker(
     passwordChangedTimestamp: Date,
-    tokenIssuedTimestamp: Number,
+    tokenIssuedTimestamp: number,
   ): Promise<boolean>;
 }
 

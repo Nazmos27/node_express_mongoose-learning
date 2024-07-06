@@ -2,7 +2,7 @@ import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { FacultyControllers } from './faculty.controller';
 import { updateFacultyValidationSchema } from './faculty.validation';
-import auth from '../../middlewares/authintication';
+import auth from '../../middlewares/authentication';
 import { USER_ROLE } from '../user/user.constant';
 
 const router = express.Router();
