@@ -3,6 +3,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import {
   loginValidationSchema,
   changePassValidationSchema,
+  refreshTokenValidationSchema,
 } from './auth.validation';
 import { AuthControllers } from './auth.controller';
 import auth from '../../middlewares/authentication';
@@ -22,5 +23,7 @@ router.post(
   validateRequest(changePassValidationSchema),
   AuthControllers.changePassword,
 );
+
+router.post('/refresh-token', validateRequest(refreshTokenValidationSchema), AuthControllers.refreshToken)
 
 export const AuthRoutes = router;

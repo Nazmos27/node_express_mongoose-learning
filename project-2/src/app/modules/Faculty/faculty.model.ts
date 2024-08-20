@@ -80,7 +80,7 @@ const facultySchema = new Schema<TFaculty, FacultyInterface>(
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
-      ref: 'users',
+      ref: 'academic-departments',
     },
     isDeleted: {
       type: Boolean,

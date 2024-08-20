@@ -24,3 +24,12 @@ export const changePassValidationSchema = Joi.object({
     'any.required': 'Password is a required field',
   }),
 });
+
+export const refreshTokenValidationSchema = Joi.object({
+  cookies : Joi.object({
+    refreshToken : Joi.string().required().messages({
+      'string.empty': 'Refresh token cannot be an empty field',
+      'any.required': 'Refresh token is a required field',
+    })
+  })
+})
