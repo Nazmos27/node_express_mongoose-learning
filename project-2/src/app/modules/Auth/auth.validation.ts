@@ -33,3 +33,10 @@ export const refreshTokenValidationSchema = Joi.object({
     })
   })
 })
+
+export const forgetPasswordValidationSchema = Joi.object({
+  id : Joi.string().required().messages({
+    'string.empty': 'ID cannot be an empty field',
+    'any.required': 'ID is a required field',
+  })
+})

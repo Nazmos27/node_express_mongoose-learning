@@ -42,9 +42,13 @@ const loginUser = async (payload: TLoginUser) => {
   const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: '1d',
   });
-  const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_secret as string, {
-    expiresIn: '10d',
-  });
+  const refreshToken = jwt.sign(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    {
+      expiresIn: '10d',
+    },
+  );
 
   return {
     accessToken,
@@ -127,15 +131,13 @@ const changePassword = async (
   return null;
 };
 
-const refreshToken = async ( token : string) => {
-  
-
+const refreshToken = async (token: string) => {
   //check if the token is valid
   const decoded = jwt.verify(
     token,
     config.jwt_refresh_secret as string,
   ) as JwtPayload;
-  const {  userId, iat } = decoded;
+  const { userId, iat } = decoded;
   const user = await UserModel.isUserExistChecker(userId);
   //check if the user exist using static method
   if (!user) {
@@ -174,11 +176,40 @@ const refreshToken = async ( token : string) => {
 
   return {
     accessToken,
+  };
+};
+
+const forgetPassword = async (userId: string) => {
+  const user = await UserModel.isUserExistChecker(userId);
+  //check if the user exist using static method
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found');
   }
-}
+
+  //checking if the user is already deleted
+  if (await UserModel.isUserDeletedChecker(user)) {
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is already deleted');
+  }
+  //checking if the user is already blocked
+  if (await UserModel.isUserStatusChecker(user)) {
+    throw new AppError(httpStatus.FORBIDDEN, 'This user is X Blocked! X');
+  }
+  const jwtPayload = {
+    userId: user.id,
+    role: user.role,
+  };
+
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
+    expiresIn: '10m',
+  });
+
+  const resetUILink = `http://localhost:3000?id=${user.id}&token=${accessToken}`;
+  console.log(resetUILink);
+};
 
 export const AuthServices = {
   loginUser,
   changePassword,
   refreshToken,
+  forgetPassword,
 };
