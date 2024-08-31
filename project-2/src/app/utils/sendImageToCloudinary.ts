@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import config from '../config';
+import fs from 'fs';
 
 cloudinary.config({
   cloud_name: config.cloud_name,
@@ -9,25 +10,27 @@ cloudinary.config({
 });
 
 export const sendImageToCloudinary = (imageName: string, path: string) => {
-    // Upload an image
-    return new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(
-          path,
-          { public_id: imageName },
-          function (error, result) {
-            if (error) {
-              reject(error);
-            }
-            resolve(result);})})
-    //  await cloudinary.uploader
-    //    .upload(
-    //        path, {
-    //            public_id: imageName,
-    //        }
-    //    )
-    //    .catch((error) => {
-    //        console.log(error);
-    //    });
+  // Upload an image
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(
+      path,
+      { public_id: imageName },
+      function (error, result) {
+        if (error) {
+          reject(error);
+        }
+        resolve(result);
+        // Delete file named 'exampleFile.txt'
+        fs.unlink(path, (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log('File deleted successfully!');
+          }
+        });
+      },
+    );
+  });
 };
 
 const storage = multer.diskStorage({
