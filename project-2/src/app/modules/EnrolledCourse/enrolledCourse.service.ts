@@ -4,13 +4,13 @@ import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
 
 import { TEnrolledCourse } from './enrolledCourse.interface';
-import { calculateGradeAndPoints } from './enrolledCourse.utils';
 import { OfferedCourseModel } from '../OfferedCourse/OfferedCourse.model';
 import { StudentModel } from '../student/student.model';
 import { CourseModel } from '../Course/course.model';
 import { SemesterRegistrationModel } from '../SemesterRegistration/semesterRegistration.model';
 import EnrolledCourseModel from './enrolledCourse.model';
 import { FacultyModel } from '../Faculty/faculty.model';
+import { calculateGradeAndPoints } from './enrolledCourse.utils';
 
 const createEnrolledCourseIntoDB = async (
   userId: string,
