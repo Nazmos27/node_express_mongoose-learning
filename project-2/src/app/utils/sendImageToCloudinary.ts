@@ -10,7 +10,6 @@ cloudinary.config({
 });
 
 export const sendImageToCloudinary = (imageName: string, path: string) => {
-  // Upload an image
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
       path,
@@ -20,12 +19,12 @@ export const sendImageToCloudinary = (imageName: string, path: string) => {
           reject(error);
         }
         resolve(result);
-        // Delete file named 'exampleFile.txt'
+        // delete a file asynchronously
         fs.unlink(path, (err) => {
           if (err) {
-            reject(err);
+            console.log(err);
           } else {
-            console.log('File deleted successfully!');
+            console.log('File is deleted.');
           }
         });
       },

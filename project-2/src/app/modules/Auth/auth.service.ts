@@ -234,8 +234,8 @@ const resetPassword = async (
     config.jwt_access_secret as string,
   ) as JwtPayload;
 
-  if(payload.id !== decoded.userId){
-    throw new AppError(httpStatus.FORBIDDEN,"You are forbidden")
+  if (payload.id !== decoded.userId) {
+    throw new AppError(httpStatus.FORBIDDEN, 'You are forbidden');
   }
 
   //hash the password
@@ -255,7 +255,6 @@ const resetPassword = async (
       passwordChangedAt: new Date(),
     },
   );
-
 };
 
 export const AuthServices = {

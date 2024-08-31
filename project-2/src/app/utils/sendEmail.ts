@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import config from '../config';
 
-export const sendEmail = async (to:string, link:string) => {
+export const sendEmail = async (to: string, link: string) => {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -26,4 +26,3 @@ export const sendEmail = async (to:string, link:string) => {
     console.error('Error sending email:', error);
   }
 };
-

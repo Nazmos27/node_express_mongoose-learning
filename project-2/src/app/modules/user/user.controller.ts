@@ -5,9 +5,12 @@ import httpStatus from 'http-status';
 
 const createStudent = catchAsync(async (req, res) => {
   const { password, student: studentData } = req.body;
-  console.log(req.body,'from controller');
 
-  const result = await UserServices.createStudentIntoDB(req.file, password, studentData);
+  const result = await UserServices.createStudentIntoDB(
+    req.file,
+    password,
+    studentData,
+  );
   //send response
   return res.status(200).json({
     success: true,
@@ -19,7 +22,11 @@ const createStudent = catchAsync(async (req, res) => {
 const createFaculty = catchAsync(async (req, res) => {
   const { password, faculty: facultyData } = req.body;
 
-  const result = await UserServices.createFacultyIntoDB(password, facultyData);
+  const result = await UserServices.createFacultyIntoDB(
+    req.file,
+    password,
+    facultyData,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -32,7 +39,11 @@ const createFaculty = catchAsync(async (req, res) => {
 const createAdmin = catchAsync(async (req, res) => {
   const { password, admin: adminData } = req.body;
 
-  const result = await UserServices.createAdminIntoDB(password, adminData);
+  const result = await UserServices.createAdminIntoDB(
+    req.file,
+    password,
+    adminData,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
