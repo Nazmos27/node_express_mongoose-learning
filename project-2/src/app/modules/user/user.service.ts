@@ -19,6 +19,7 @@ import { FacultyModel } from '../Faculty/faculty.model';
 import { AdminModel } from '../Admin/admin.model';
 import { TAdmin } from '../Admin/admin.interface';
 
+
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // create a user object
   const userData: Partial<TUser> = {};
@@ -181,8 +182,31 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
   }
 };
 
+const changeStatus = async (id : string, payload : {status : string}) => {
+  const result = UserModel.findByIdAndUpdate(id, payload, {new : true})
+  return result
+}
+
+const getMeFromDB = async (userId : string, role : string) => {
+  
+  let result = null
+  if(role === 'admin'){
+    result = await AdminModel.find({id : userId});
+  }
+  if(role === 'faculty'){
+    result = await FacultyModel.find({id : userId});
+  }
+  if(role === 'student'){
+    result = await StudentModel.find({id : userId});
+  }
+
+  return result;
+}
+
 export const UserServices = {
   createStudentIntoDB,
   createFacultyIntoDB,
   createAdminIntoDB,
+  getMeFromDB,
+  changeStatus,
 };
