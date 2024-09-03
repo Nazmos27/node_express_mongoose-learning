@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import  { Schema, model } from 'mongoose';
 import { TAcademicDepartment } from './acaDepartment.interface';
 import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
@@ -42,6 +42,7 @@ academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
   }
   next();
 });
+
 
 export const AcademicDepartmentModel = model<TAcademicDepartment>(
   'academic-departments',
