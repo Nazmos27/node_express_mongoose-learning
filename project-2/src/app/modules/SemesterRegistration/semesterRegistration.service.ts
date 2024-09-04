@@ -26,13 +26,14 @@ const createSemesterRegistrationIntoDB = async (
     );
   }
 
-  //check if the semester exist
-  const isAcademicSemester =
-    await AcademicSemesterModel.findOne(academicSemester);
-  if (!isAcademicSemester) {
+  // check if the semester is exist
+  const isAcademicSemesterExists =
+    await AcademicSemesterModel.findById(academicSemester);
+
+  if (!isAcademicSemesterExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      'This Academic Semester not found',
+      'This academic semester not found !',
     );
   }
 

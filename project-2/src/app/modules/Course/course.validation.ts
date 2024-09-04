@@ -1,13 +1,4 @@
 import Joi from 'joi';
-// import mongoose from 'mongoose';
-
-// Utility function to validate ObjectId
-// const validateObjectId = (value, helpers) => {
-//   if (!mongoose.Types.ObjectId.isValid(value)) {
-//     return helpers.message('Invalid ObjectId');
-//   }
-//   return value;
-// };
 
 // PreRequisite Course Validation Schema
 const PreRequisiteCourseValidationSchema = Joi.object({

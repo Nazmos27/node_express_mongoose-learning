@@ -143,6 +143,7 @@ const createFacultyIntoDB = async (
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
+    payload.academicFaculty = academicDepartment.academicFaculty;
 
     // create a faculty (transaction-2)
 
